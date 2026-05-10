@@ -1,30 +1,71 @@
 pipeline {
     agent any
-    triggers {
-        // Automatically polls GitHub every 2 minutes for changes
-        pollSCM('*/2 * * * *')
-    }
+
     stages {
         stage('Build') {
-            steps { echo "Compiling code using Maven..." }
+            steps {
+                echo 'Stage 1: Build'
+                echo 'Task: Build the code using a build automation tool to compile and package the application.'
+                echo 'Tool used: Maven'
+            }
         }
+
         stage('Unit and Integration Tests') {
-            steps { echo "Running tests using JUnit and Selenium..." }
+            steps {
+                echo 'Stage 2: Unit and Integration Tests'
+                echo 'Task: Run unit tests to check individual functions and integration tests to check components working together.'
+                echo 'Tools used: JUnit for unit testing and Selenium for integration testing'
+            }
         }
+
         stage('Code Analysis') {
-            steps { echo "Analyzing code quality with SonarQube..." }
+            steps {
+                echo 'Stage 3: Code Analysis'
+                echo 'Task: Analyse the code quality, coding standards, bugs, maintainability and code smells.'
+                echo 'Tool used: SonarQube / SonarCloud'
+            }
         }
+
         stage('Security Scan') {
-            steps { echo "Scanning for vulnerabilities with Snyk..." }
+            steps {
+                echo 'Stage 4: Security Scan'
+                echo 'Task: Scan the application code and dependencies to identify known security vulnerabilities.'
+                echo 'Tool used: OWASP Dependency-Check / npm audit'
+            }
         }
+
         stage('Deploy to Staging') {
-            steps { echo "Deploying to AWS EC2 Staging Instance..." }
+            steps {
+                echo 'Stage 5: Deploy to Staging'
+                echo 'Task: Deploy the application to a staging server for testing in a production-like environment.'
+                echo 'Tool used: AWS EC2'
+            }
         }
+
         stage('Integration Tests on Staging') {
-            steps { echo "Running Postman tests on Staging..." }
+            steps {
+                echo 'Stage 6: Integration Tests on Staging'
+                echo 'Task: Run integration tests on the staging environment to confirm the application works correctly before production.'
+                echo 'Tools used: Postman / Selenium'
+            }
         }
+
         stage('Deploy to Production') {
-            steps { echo "Deploying to AWS EC2 Production..." }
+            steps {
+                echo 'Stage 7: Deploy to Production'
+                echo 'Task: Deploy the verified application to the production server.'
+                echo 'Tool used: AWS EC2'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo '7-stage mock CI/CD pipeline completed successfully.'
+        }
+
+        failure {
+            echo '7-stage mock CI/CD pipeline failed.'
         }
     }
 }
